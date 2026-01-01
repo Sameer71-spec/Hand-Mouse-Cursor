@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bhootiya Mouse Control</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #00ff00;
+            /* Spooky Neon Green */
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3rem;
+            text-shadow: 2px 2px 5px #000;
+            margin-bottom: 50px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 30px;
+        }
+
+        button {
+            font-size: 1.5rem;
+            padding: 20px 40px;
+            border: 2px solid #00ff00;
+            border-radius: 10px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+        }
+
+        #start-btn {
+            background-color: #000;
+            color: #00ff00;
+        }
+
+        #start-btn:hover {
+            background-color: #00ff00;
+            color: #000;
+            box-shadow: 0 0 20px #00ff00;
+        }
+
+        #stop-btn {
+            background-color: #000;
+            color: #ff0000;
+            border-color: #ff0000;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+        }
+
+        #stop-btn:hover {
+            background-color: #ff0000;
+            color: #000;
+            box-shadow: 0 0 20px #ff0000;
+        }
+
+        #status {
+            margin-top: 30px;
+            font-size: 1.2rem;
+            min-height: 30px;
+        }
+
+        .instructions {
+            margin-top: 40px;
+            border: 1px solid #00ff00;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: rgba(0, 255, 0, 0.1);
+            text-align: left;
+        }
+
+        .instructions h2 {
+            margin-top: 0;
+            color: #00ff00;
+            text-align: center;
+        }
+
+        .instructions p {
+            font-size: 1.1rem;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>👻 BHOOTIYA MOUSE 👻</h1>
+
+    <div class="buttons">
+        <button id="start-btn" onclick="controlMouse('start')">Start Magic</button>
+        <button id="stop-btn" onclick="controlMouse('stop')">Stop Magic</button>
+    </div>
+
+    <div id="status">Ready to summon...</div>
+
+    <div class="instructions">
+        <h2>🔮 How to Use 🔮</h2>
+        <p>🖐️ <strong>Move:</strong> Any Number of Fingers (1, 4, 5)</p>
+        <p>✌️ <strong>Left Click:</strong> Show Exactly 2 Fingers</p>
+        <p>🫰 <strong>Right Click:</strong> Show Exactly 3 Fingers</p>
+        <p>✊ <strong>Stop Mouse:</strong> Close Fist (0 Fingers)</p>
+    </div>
+
+    <script>
+        function controlMouse(action) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.innerText = "Summoning...";
+
+            fetch('/' + action)
+                .then(response => response.json())
+                .then(data => {
+                    statusDiv.innerText = data.message;
+                    if (data.status === 'started') {
+                        statusDiv.style.color = '#00ff00';
+                    } else if (data.status === 'stopped') {
+                        statusDiv.style.color = '#ff0000';
+                    }
+                })
+                .catch(error => {
+                    statusDiv.innerText = "Error: " + error;
+                });
+        }
+    </script>
+
+</body>
+
+</html>
